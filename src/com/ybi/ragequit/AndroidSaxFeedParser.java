@@ -71,7 +71,7 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 
 			@Override
 			public void start(Attributes attributes) {
-				currentMessage.setMediaThumbnail(attributes.getValue("url"));
+				currentMessage.setMediaContent(attributes.getValue("url"));
 			}
 
 		});

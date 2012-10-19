@@ -61,8 +61,8 @@ public class FlipScreen {
 		bitmap.eraseColor(Color.argb(255, 255, 255, 255));
 		Canvas canvas = new Canvas(bitmap);
 
-		Typeface bold = Typeface.createFromAsset(ctx.getAssets(), "UbuntuB.ttf");
-		Typeface light = Typeface.createFromAsset(ctx.getAssets(), "UbuntuL.ttf");
+		Typeface bold = Typeface.createFromAsset(ctx.getAssets(), "ubuntub.ttf");
+		Typeface light = Typeface.createFromAsset(ctx.getAssets(), "ubuntul.ttf");
 		p.setAntiAlias(true);
 		p.setSubpixelText(true);
 		p.setStyle(Style.FILL);

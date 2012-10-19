@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.widget.Toast;
 
 /**
@@ -29,7 +28,7 @@ public class MainActivity extends RajawaliActivity implements OnTouchListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		mRenderer = new MainRenderer(this);
 		mRenderer.setSurfaceView(mSurfaceView);
