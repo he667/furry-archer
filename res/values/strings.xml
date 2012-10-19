@@ -1,0 +1,44 @@
+<resources>
+
+    <string name="app_name">RageQuit</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Rage Quit</string>
+    <string name="local_service_started">Started</string>
+    <string name="local_service_stopped">Stopped</string>
+    <string name="local_service_label">Feed Service</string>
+    <string name="local_service_connected">Connected</string>
+    <string name="local_service_disconnected">Disconnected</string>
+
+    		<string-array
+		name="ms"
+	>
+		<item>JAN</item>
+		<item>FEB</item>
+		<item>MAR</item>
+		<item>APR</item>
+		<item>MAY</item>
+		<item>JUN</item>
+		<item>JUL</item>
+		<item>AUG</item>
+		<item>SEP</item>
+		<item>OCT</item>
+		<item>NOV</item>
+		<item>DEC</item>
+	</string-array>
+	
+	
+	<string-array
+		name="se"
+	>
+		<item>SUN</item>
+		<item>MON</item>
+		<item>TUE</item>
+		<item>WED</item>
+		<item>THU</item>
+		<item>FRI</item>
+		<item>SAT</item>
+	</string-array>
+    
+    
+</resources>
