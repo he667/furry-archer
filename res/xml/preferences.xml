@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/feed_title" >
+        <Preference
+            android:key="feedAdd"
+            android:title="@string/feed_add" />
+        <Preference
+            android:key="feedRemove"
+            android:title="@string/feed_remove" />
+        <Preference
+            android:key="feedList"
+            android:title="@string/feed_list" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/repo_title" >
+        <Preference
+            android:key="repoSize"
+            android:title="@string/repo_size" />
+        <Preference
+            android:key="repoEmpty"
+            android:title="@string/repo_empty" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/refresh_title" >
+        <Preference
+            android:key="refreshWifi"
+            android:title="@string/refresh_wifi" />
+        <Preference
+            android:key="refreshNorule"
+            android:title="@string/refresh_norule" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/rate_title" >
+        <Preference
+            android:key="rateManual"
+            android:title="@string/rate_manual"
+            android:summary="On/Off" />
+        <Preference
+            android:key="rateSome"
+            android:title="@string/rate_some"
+            android:summary="1 Day" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about_title" >
+        <Preference
+            android:key="aboutVersion"
+            android:title="@string/about_version"
+            android:summary="1.0" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
