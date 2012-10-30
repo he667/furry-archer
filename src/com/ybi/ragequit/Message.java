@@ -14,7 +14,8 @@ import android.util.Log;
  */
 
 public class Message implements Comparable<Message> {
-	static SimpleDateFormat FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+	final static SimpleDateFormat IN_FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+	final static SimpleDateFormat OUT_FORMATTER = new SimpleDateFormat("yyMMddHHmmssZ", Locale.US);
 
 	private long id;
 	private String title;
@@ -24,6 +25,7 @@ public class Message implements Comparable<Message> {
 	private String mediaThumbnail;
 	private String mediaContent;
 	private String checksum;
+	private String location;
 
 	public long getId() {
 		return id;
@@ -71,8 +73,12 @@ public class Message implements Comparable<Message> {
 		this.date = date;
 	}
 
-	public String getDate() {
-		return FORMATTER.format(date);
+	public String getDateForDatabase() {
+		return OUT_FORMATTER.format(date);
+	}
+
+	public String getDateForDisplay() {
+		return IN_FORMATTER.format(date);
 	}
 
 	public void setDate(String date) {
@@ -81,7 +87,7 @@ public class Message implements Comparable<Message> {
 			date += "0";
 		}
 		try {
-			this.date = FORMATTER.parse(date.trim());
+			this.date = IN_FORMATTER.parse(date.trim());
 		} catch (java.text.ParseException e) {
 			Log.e("RageQuit", "Parse Excpetion", e);
 		}
@@ -107,7 +113,13 @@ public class Message implements Comparable<Message> {
 		return Utils.md5(link.toString());
 	}
 
+	public String getLocation() {
+		return location;
+	}
 
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
 	@Override
 	public String toString() {
@@ -132,6 +144,7 @@ public class Message implements Comparable<Message> {
 		message.setTitle(title);
 		message.setMediaThumbnail(mediaThumbnail);
 		message.setMediaContent(mediaContent);
+		message.setLocation(location);
 		return message;
 	}
 }

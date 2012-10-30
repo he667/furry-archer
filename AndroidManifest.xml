@@ -25,12 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".FeedService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
+        <activity
+            android:name=".MainPreferencesActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+            
     </application>
 
 </manifest>

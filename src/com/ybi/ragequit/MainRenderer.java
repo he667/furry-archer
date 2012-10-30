@@ -61,11 +61,11 @@ public class MainRenderer extends RajawaliRenderer {
 		DiffuseMaterial material = new DiffuseMaterial();
 		material.setAmbientColor(Color.argb(255, 255, 255, 255));
 		material.setUseColor(true);
-		material.setColors(Color.argb(255, 255, 255, 255));
+		//material.setColors(Color.argb(255, 255, 255, 255));
 
 		mSphere.setMaterial(material);
 		mSphere.addLight(mLight);
-		mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent()));
+		mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent(), true, true));
 		mSphere.setRotZ(-90);
 
 		empty.addChild(mSphere);
@@ -88,7 +88,7 @@ public class MainRenderer extends RajawaliRenderer {
 	public void onDrawFrame(GL10 glUnused) {
 		super.onDrawFrame(glUnused);
 		int rpos;
-		Log.d(TAG, "POSITION = " + currentpos + "-" + Math.round(currentpos));
+		//Log.d(TAG, "POSITION = " + currentpos + "-" + Math.round(currentpos));
 		if (isFlipping) {
 			if (pos > 0) {
 				pos = 1;
@@ -128,7 +128,7 @@ public class MainRenderer extends RajawaliRenderer {
 			isCentering = false;
 		}
 
-		if (isFlipping && Math.round(currentpos) <= -90) {
+		if (isFlipping && Math.round(currentpos) <= -90 && !flipScreen.isMaxScreen()) {
 			isFlipping = false;
 			isFlopping = true;
 			mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getNext());
@@ -146,8 +146,6 @@ public class MainRenderer extends RajawaliRenderer {
 	}
 
 
-
-
 	public void rotate(float tpos) {
 		timerValue = System.currentTimeMillis();
 		if (!isFlipping && !isFlopping) {
@@ -160,6 +158,11 @@ public class MainRenderer extends RajawaliRenderer {
 	public void flip() {
 		timerValue = System.currentTimeMillis();
 		isFlipping = true;
+	}
+
+	public void refresh(int nbMessages) {
+		flipScreen.setMaxScreen(nbMessages);
+
 	}
 
 }

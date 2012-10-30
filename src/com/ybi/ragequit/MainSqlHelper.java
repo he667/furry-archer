@@ -21,18 +21,19 @@ public class MainSqlHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_THUMBNAIL = "thumbnail";
 	public static final String COLUMN_CONTENT = "content";
 	public static final String COLUMN_CHECKSUM = "checksum";
+	public static final String COLUMN_LOCATION = "location";
 
 	public static final String[] ALL_COLUMNS = { COLUMN_ID, COLUMN_TITLE, COLUMN_DESC, COLUMN_LINK, COLUMN_DATE, COLUMN_THUMBNAIL,
-		COLUMN_CONTENT, COLUMN_CHECKSUM };
+		COLUMN_CONTENT, COLUMN_CHECKSUM, COLUMN_LOCATION };
 
 	private static final String DATABASE_NAME = "pics.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table " + TABLE_PICS + "(" + COLUMN_ID
 			+ " integer primary key autoincrement," + COLUMN_TITLE + " text not null," + COLUMN_DESC + " text not null," + COLUMN_LINK
 			+ " text not null," + COLUMN_DATE + " date not null," + COLUMN_THUMBNAIL + " text not null," + COLUMN_CONTENT
-			+ " text not null," + COLUMN_CHECKSUM + " text not null);";
+			+ " text not null," + COLUMN_CHECKSUM + " text not null," + COLUMN_LOCATION + " text not null );";
 
 	public MainSqlHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

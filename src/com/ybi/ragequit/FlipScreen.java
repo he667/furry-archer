@@ -1,5 +1,7 @@
 package com.ybi.ragequit;
 
+import java.sql.SQLException;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.graphics.Typeface;
 import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * 
@@ -26,13 +29,17 @@ public class FlipScreen {
 	private static final int LINE_HEIGHT = 20;
 
 	private int currentScreen;
+	private int maxScreen;
 	// some bitmaps
 	private Bitmap current;
 	private Bitmap previous;
 	private Bitmap next;
+	private final PicsDataSource datasource;
 
 	public FlipScreen(Context context) {
 		ctx = context;
+		datasource = new PicsDataSource(ctx);
+
 		// prepare the current and the next
 		current = drawWidget(0);
 		next = drawWidget(1);
@@ -69,55 +76,81 @@ public class FlipScreen {
 		p.setColor(Color.BLACK);
 		p.setFilterBitmap(true);
 		Bitmap bg = null;
-		switch (tScreen) {
-		case 0:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accm);
-			break;
-		case 1:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.acca);
-			break;
-		case 2:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accf);
-			break;
-		case 3:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accd);
-			break;
-		case 4:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.acco);
-			break;
-		default:
-			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.aic_launcher);
-			break;
+
+		// get the current screen message
+		Message message = getMessage(tScreen);
+
+		if (message != null && message.getLocation() != null) {
+			bg = BitmapFactory.decodeFile(message.getLocation());
+
+			//		switch (tScreen) {
+			//		case 0:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accm);
+			//			break;
+			//		case 1:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.acca);
+			//			break;
+			//		case 2:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accf);
+			//			break;
+			//		case 3:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.accd);
+			//			break;
+			//		case 4:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.acco);
+			//			break;
+			//		default:
+			//			bg = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.aic_launcher);
+			//			break;
+			//		}
+
+			//MAX_WIDTH / bg.getWidth() * bg.getHeight()
+			//Rect sourceRect = new Rect();
+
+			canvas.drawBitmap(bg, null, new Rect(50, 0, MAX_WIDTH - 50, 350), p);
+			int ih = 370;
+
+			//canvas.drawARGB(0, 0, 0, 0);
+			p.setTypeface(bold);
+			p.setTextSize(20);
+			canvas.drawText(message.getTitle(), 60, ih, p);
+			ih += LINE_HEIGHT;
+			p.setTypeface(light);
+			p.setTextSize(12);
+			canvas.drawText(message.getDateForDisplay(), 60, ih, p);
+			ih += LINE_HEIGHT;
+			p.setTypeface(light);
+			p.setTextSize(15);
+			canvas.drawText(message.getDescription(), 60, ih, p);
+			ih += LINE_HEIGHT;
+			canvas.drawText(message.getLink().toString(), 60, ih, p);
+			ih += LINE_HEIGHT;
+			p.setTextSize(12);
+			canvas.drawText("[" + tScreen + " / " + maxScreen + "]", 60, ih, p);
+			ih += LINE_HEIGHT;
+			p.setStyle(Style.STROKE);
+			p.setStrokeWidth(1);
+			canvas.drawRect(new Rect(50, 0, MAX_WIDTH - 50, MAX_HEIGHT - 10), p);
+
+			return bitmap;
+		} else {
+			return BitmapFactory.decodeResource(ctx.getResources(), R.drawable.aic_launcher);
 		}
+	}
 
-		//MAX_WIDTH / bg.getWidth() * bg.getHeight()
-		Rect sourceRect = new Rect();
-
-		canvas.drawBitmap(bg, null, new Rect(50, 0, MAX_WIDTH - 50, 350), p);
-		int ih = 370;
-
-		//canvas.drawARGB(0, 0, 0, 0);
-		p.setTypeface(bold);
-		p.setTextSize(20);
-		canvas.drawText("Current Screen " + tScreen, 60, ih, p);
-		ih += LINE_HEIGHT;
-		p.setTypeface(light);
-		p.setTextSize(12);
-		canvas.drawText("Dolor sit amet consectectur.", 60, ih, p);
-		ih += LINE_HEIGHT;
-		p.setTypeface(light);
-		p.setTextSize(15);
-		canvas.drawText("Lorem ipsum dolor sit amet ", 60, ih, p);
-		ih += LINE_HEIGHT;
-		canvas.drawText("consectectur, dolor sit amet", 60, ih, p);
-		ih += LINE_HEIGHT;
-		canvas.drawText("sit amet consectectur, dolor.", 60, ih, p);
-		ih += LINE_HEIGHT;
-		p.setStyle(Style.STROKE);
-		p.setStrokeWidth(1);
-		canvas.drawRect(new Rect(50, 0, MAX_WIDTH - 50, MAX_HEIGHT - 10), p);
-
-		return bitmap;
+	private Message getMessage(int tScreen) {
+		Message message = null;
+		try {
+			datasource.open();
+			message = datasource.getNthMessage(tScreen);
+			Log.d("RageQuit", "getting " + currentScreen + " message + " + message.getId() + " --- " + message.getLocation());
+		} catch (SQLException e) {
+			Log.d("RageQuit", "error", e);
+		}
+		if (datasource != null) {
+			datasource.close();
+		}
+		return message;
 	}
 
 	public void flip(final int i) {
@@ -149,6 +182,36 @@ public class FlipScreen {
 
 	public Bitmap getPrevious() {
 		return previous;
+	}
+
+	public boolean isMaxScreen() {
+		if (currentScreen < maxScreen) {
+			return true;
+		}
+		return false;
+	}
+
+	public void setMaxScreen(int maxScreen) {
+		this.maxScreen = maxScreen;
+	}
+
+	public int getMaxScreen() {
+		return maxScreen;
+	}
+
+	public void recycle() {
+		if (previous != null && !previous.isRecycled()) {
+			previous.recycle();
+			previous = null;
+		}
+		if (current != null && !current.isRecycled()) {
+			current.recycle();
+			current = null;
+		}
+		if (next != null && !next.isRecycled()) {
+			next.recycle();
+			next = null;
+		}
 	}
 
 	//	private void flipBitmap(final int i) {
