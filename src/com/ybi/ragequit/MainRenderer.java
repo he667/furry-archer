@@ -1,5 +1,6 @@
 package com.ybi.ragequit;
 
+import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import rajawali.BaseObject3D;
@@ -165,4 +166,13 @@ public class MainRenderer extends RajawaliRenderer {
 
 	}
 
+	@Override
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		if (getSceneInitialized()) {
+			Log.d(TAG, "UPDATING TEXTURE!!!!!!");
+			mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent(), true, true));
+			//mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getCurrent());
+		}
+		super.onSurfaceCreated(gl, config);
+	}
 }

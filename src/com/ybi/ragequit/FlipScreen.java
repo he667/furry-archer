@@ -46,7 +46,14 @@ public class FlipScreen {
 	}
 
 	public Bitmap getCurrent() {
-		return current;
+		if (!current.isRecycled()) {
+			return current;
+		} else {
+			Log.d("RageQuit", "current regen ");
+			current = drawWidget(0);
+			return current;
+		}
+
 	}
 
 	public int getCurrentScreen() {
@@ -177,11 +184,23 @@ public class FlipScreen {
 	}
 
 	public Bitmap getNext() {
-		return next;
+		if (!next.isRecycled()) {
+			return next;
+		} else {
+			Log.d("RageQuit", "next regen ");
+			next = drawWidget(1);
+			return next;
+		}
 	}
 
 	public Bitmap getPrevious() {
-		return previous;
+		if (!previous.isRecycled()) {
+			return previous;
+		} else {
+			Log.d("RageQuit", "previous regen ");
+			previous = drawWidget(1);
+			return previous;
+		}
 	}
 
 	public boolean isMaxScreen() {
@@ -201,14 +220,17 @@ public class FlipScreen {
 
 	public void recycle() {
 		if (previous != null && !previous.isRecycled()) {
+			Log.d("RageQuit", "previous recycled");
 			previous.recycle();
 			previous = null;
 		}
 		if (current != null && !current.isRecycled()) {
+			Log.d("RageQuit", "current recycled");
 			current.recycle();
 			current = null;
 		}
 		if (next != null && !next.isRecycled()) {
+			Log.d("RageQuit", "current recycled");
 			next.recycle();
 			next = null;
 		}
