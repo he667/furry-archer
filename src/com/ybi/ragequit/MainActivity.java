@@ -13,7 +13,7 @@ public class MainActivity extends RajawaliFragmentActivity implements OnTouchLis
 
 	private MainRenderer mRenderer;
 	private FeedService mFeed;
-	private int currentscreen;
+	//private int currentscreen;
 	private float startY;
 
 	@Override
@@ -51,19 +51,21 @@ public class MainActivity extends RajawaliFragmentActivity implements OnTouchLis
 				if (mFeed != null) {
 					mFeed.getFeed();
 				}
-				mRenderer.refresh(mFeed.getNbMessages());
+				//mRenderer.refresh(mFeed.getNbMessages());
 			} else if (currentY - startY > 0.4) {
 				Intent intent = new Intent(this, MainPreferencesActivity.class);
 				startActivity(intent);
 			} else {
-				Log.d("RageQuit", "Position = " + pos);
+
 				if (pos > 0.2) {
-					mRenderer.flip();
-					currentscreen += 1;
+					Log.d("RageQuit", "Flipping to right Position = " + pos);
+					mRenderer.flip(+1);
+					//currentscreen += 1;
 					return true;
-				} else if (pos < -0.2 && currentscreen > 0) {
-					mRenderer.flip();
-					currentscreen -= 1;
+				} else if (pos < -0.2) {
+					Log.d("RageQuit", "Flipping to left Position = " + pos);
+					mRenderer.flip(-1);
+					//currentscreen -= 1;
 					return true;
 				}
 			}

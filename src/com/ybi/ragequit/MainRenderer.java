@@ -92,8 +92,10 @@ public class MainRenderer extends RajawaliRenderer {
 		//Log.d(TAG, "POSITION = " + currentpos + "-" + Math.round(currentpos));
 		if (isFlipping) {
 			if (pos > 0) {
+				Log.d("RageQuit", "Flipping to " + pos);
 				pos = 1;
 			} else {
+				Log.d("RageQuit", "Flipping to " + pos);
 				pos = -1;
 			}
 		}
@@ -106,10 +108,12 @@ public class MainRenderer extends RajawaliRenderer {
 			currentpos = -90 * pos;
 			pos = 0;
 			isFlopping = false;
+			isCentering = false;
+			timerValue = System.currentTimeMillis();
+			Log.d("RageQuit", "Flopping to " + pos);
 		}
 
 		rpos = (int) (90 * pos);
-
 
 		if (System.currentTimeMillis() - timerValue > 2000 && Math.round(Math.abs(Math.round(currentpos))) != 0) {
 			timerValue = System.currentTimeMillis();
@@ -124,24 +128,34 @@ public class MainRenderer extends RajawaliRenderer {
 
 		if (isFlopping && Math.round(Math.abs(Math.round(currentpos))) == 0) {
 			isFlopping = false;
+			isCentering = false;
+			timerValue = System.currentTimeMillis();
 		}
 		if (isCentering && Math.round(Math.abs(Math.round(currentpos))) == 0) {
 			isCentering = false;
+			timerValue = System.currentTimeMillis();
 		}
 
-		if (isFlipping && Math.round(currentpos) <= -90 && !flipScreen.isMaxScreen()) {
+		if (isFlipping && Math.round(currentpos) <= -90) {
+			Log.d("RageQuit", "Flipping complete from " + currentpos);
+
 			isFlipping = false;
 			isFlopping = true;
+			isCentering = false;
+			timerValue = System.currentTimeMillis();
 			mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getNext());
 			flipScreen.flip(1);
-			Log.d(TAG, "isFlipping POSITION = " + currentpos + " SCREEN " + flipScreen.getCurrentScreen());
+			Log.d(TAG, "isFlipping from neg POSITION = " + currentpos + " SCREEN " + flipScreen.getCurrentScreen());
 		}
-		if (isFlipping && Math.round(currentpos) >= 90 && flipScreen.getCurrentScreen() > 0) {
+		if (isFlipping && Math.round(currentpos) >= 90) {
+			Log.d("RageQuit", "Flipping complete from " + currentpos);
 			isFlipping = false;
 			isFlopping = true;
+			isCentering = false;
+			timerValue = System.currentTimeMillis();
 			mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getPrevious());
 			flipScreen.flip(-1);
-			Log.d(TAG, "isFlipping POSITION = " + currentpos + " SCREEN " + flipScreen.getCurrentScreen());
+			Log.d(TAG, "isFlipping from pos POSITION = " + currentpos + " SCREEN " + flipScreen.getCurrentScreen());
 		}
 		empty.setRotY(currentpos);
 	}
@@ -156,14 +170,17 @@ public class MainRenderer extends RajawaliRenderer {
 
 	}
 
-	public void flip() {
+	public void flip(int i) {
 		timerValue = System.currentTimeMillis();
-		isFlipping = true;
-	}
-
-	public void refresh(int nbMessages) {
-		flipScreen.setMaxScreen(nbMessages);
-
+		if (i == 1 && !flipScreen.isMaxScreen()) {
+			Log.d("RageQuit", "Starting flipping " + i);
+			isFlipping = true;
+			isCentering = false;
+		} else if (i == -1 && flipScreen.getCurrentScreen() > 0) {
+			Log.d("RageQuit", "Starting flipping " + i);
+			isFlipping = true;
+			isCentering = false;
+		}
 	}
 
 	@Override

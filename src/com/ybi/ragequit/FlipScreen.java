@@ -133,7 +133,7 @@ public class FlipScreen {
 			canvas.drawText(message.getLink().toString(), 60, ih, p);
 			ih += LINE_HEIGHT;
 			p.setTextSize(12);
-			canvas.drawText("[" + tScreen + " / " + maxScreen + "]", 60, ih, p);
+			canvas.drawText("[" + (tScreen + 1) + " / " + maxScreen + "]", 60, ih, p);
 			ih += LINE_HEIGHT;
 			p.setStyle(Style.STROKE);
 			p.setStrokeWidth(1);
@@ -149,6 +149,7 @@ public class FlipScreen {
 		Message message = null;
 		try {
 			datasource.open();
+			maxScreen = datasource.getNbMessages();
 			message = datasource.getNthMessage(tScreen);
 			Log.d("RageQuit", "getting " + currentScreen + " message + " + message.getId() + " --- " + message.getLocation());
 		} catch (SQLException e) {
@@ -188,7 +189,7 @@ public class FlipScreen {
 			return next;
 		} else {
 			Log.d("RageQuit", "next regen ");
-			next = drawWidget(1);
+			next = drawWidget(currentScreen + 1);
 			return next;
 		}
 	}
@@ -198,24 +199,16 @@ public class FlipScreen {
 			return previous;
 		} else {
 			Log.d("RageQuit", "previous regen ");
-			previous = drawWidget(1);
+			previous = drawWidget(currentScreen - 1);
 			return previous;
 		}
 	}
 
 	public boolean isMaxScreen() {
 		if (currentScreen < maxScreen) {
-			return true;
+			return false;
 		}
-		return false;
-	}
-
-	public void setMaxScreen(int maxScreen) {
-		this.maxScreen = maxScreen;
-	}
-
-	public int getMaxScreen() {
-		return maxScreen;
+		return true;
 	}
 
 	public void recycle() {

@@ -87,7 +87,7 @@ public class Message implements Comparable<Message> {
 			date += "0";
 		}
 		try {
-			this.date = IN_FORMATTER.parse(date.trim());
+			this.date = OUT_FORMATTER.parse(date.trim());
 		} catch (java.text.ParseException e) {
 			Log.e("RageQuit", "Parse Excpetion", e);
 		}
