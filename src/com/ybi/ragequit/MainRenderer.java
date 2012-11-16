@@ -66,7 +66,7 @@ public class MainRenderer extends RajawaliRenderer {
 
 		mSphere.setMaterial(material);
 		mSphere.addLight(mLight);
-		mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent(), true, true));
+		mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent()));
 		mSphere.setRotZ(-90);
 
 		empty.addChild(mSphere);
@@ -185,11 +185,18 @@ public class MainRenderer extends RajawaliRenderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		if (getSceneInitialized()) {
-			Log.d(TAG, "UPDATING TEXTURE!!!!!!");
-			mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent(), true, true));
-			//mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getCurrent());
-		}
+		//		if (getSceneInitialized()) {
+		//			Log.d(TAG, "UPDATING TEXTURE!!!!!!");
+		//			mSphere.addTexture(mTextureManager.addTexture(flipScreen.getCurrent()));
+		//			//mTextureManager.updateTexture(mTextureManager.getTextureInfoList().get(0), flipScreen.getCurrent());
+		//		}
 		super.onSurfaceCreated(gl, config);
+	}
+
+	@Override
+	public void onSurfaceDestroyed() {
+		super.onSurfaceDestroyed();
+		//mTextureManager.removeTexture(mTextureManager.getTextureInfoList().get(0));
+		flipScreen.recycle();
 	}
 }

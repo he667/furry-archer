@@ -113,7 +113,7 @@ public class PicsDataSource {
 		message.setTitle(cursor.getString(1));
 		message.setDescription(cursor.getString(2));
 		message.setLink(cursor.getString(3));
-		message.setDate(cursor.getString(4));
+		message.setDateFromDatabase(cursor.getString(4));
 		message.setMediaThumbnail(cursor.getString(5));
 		message.setMediaContent(cursor.getString(6));
 		message.setLocation(cursor.getString(8));

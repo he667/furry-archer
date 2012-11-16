@@ -56,7 +56,7 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 		item.getChild(PUB_DATE).setEndTextElementListener(new EndTextElementListener() {
 			@Override
 			public void end(String body) {
-				currentMessage.setDate(body);
+				currentMessage.setDateFromFeed(body);
 			}
 		});
 		item.getChild(MEDIA, THUMBNAIL).setStartElementListener(new StartElementListener() {

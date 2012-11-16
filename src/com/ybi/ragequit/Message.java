@@ -81,13 +81,25 @@ public class Message implements Comparable<Message> {
 		return IN_FORMATTER.format(date);
 	}
 
-	public void setDate(String date) {
+	public void setDateFromDatabase(String date) {
 		// pad the date if necessary
 		while (!date.endsWith("00")) {
 			date += "0";
 		}
 		try {
 			this.date = OUT_FORMATTER.parse(date.trim());
+		} catch (java.text.ParseException e) {
+			Log.e("RageQuit", "Parse Excpetion", e);
+		}
+	}
+
+	public void setDateFromFeed(String date) {
+		// pad the date if necessary
+		while (!date.endsWith("00")) {
+			date += "0";
+		}
+		try {
+			this.date = IN_FORMATTER.parse(date.trim());
 		} catch (java.text.ParseException e) {
 			Log.e("RageQuit", "Parse Excpetion", e);
 		}
